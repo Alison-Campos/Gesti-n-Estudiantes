@@ -1,0 +1,139 @@
+<html lang="en">
+
+<head>
+  <title>Crear Curso</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header>
+          <div  id="menu"></div>
+          <script src="menu.js"></script>
+          </header>
+          <main>
+            <div class="mt-5 pt-5">
+                <form class="container col-8 "id="formulario"> 
+                    <div class="mb-3 ">
+                      <label for="" class="form-label">Nombre</label>
+                      <input type="text"
+                        class="form-control" name="nombre" id="nombre" aria-describedby="helpId" placeholder="Ingresa el nombre del curso">
+                    </div>
+                        <div class="mb-3">
+                            <button type="reset" class="btn btn-danger"> Limpiar</button>
+                            <button type="submit" onclick=""class="btn btn-primary"> Guardar</button>
+                        </div>
+                </form>
+              </div>
+                  <!-- Modal de confirmación de registro -->
+               <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div id="modal-header" class="modal-header bg-success" >
+                      <h5 class="modal-title" id="confirmarEliminarModalLabel">Confirmarcion</h5>
+                    </div>
+                    <div class="modal-body">
+                      <form id="formulario2">
+                      <p id="p"></p>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" id="cerrar" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>      
+            
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal alerta-->
+               <div class="modal fade" id="modal3" tabindex="-1" role="dialog" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div id="modal-header" class="modal-header bg-danger" >
+                      <h5 class="modal-title" id="confirmarEliminarModalLabel">Confirmarcion</h5>
+                    </div>
+                    <div class="modal-body">
+                      <form id="formulario2">
+                      <p id="p2">Dejaste uno o mas campos en blanco</p>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" id="cerrar" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>      
+            
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </main>
+          <footer>
+            <div  id="footer" class=""></div>
+    <script src="footer.js"></script>
+          </footer>
+    </div>
+ 
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+
+  <script>
+  const modal2 = new bootstrap.Modal(document.getElementById('modal2'));
+  const modal3 = new bootstrap.Modal(document.getElementById('modal3'));
+  var parrafo = document.getElementById("p");
+  formulario.addEventListener('submit', function(e){
+    e.preventDefault(); 
+           
+        var formulario = document.getElementById('formulario');
+        var nombre = document.getElementById("nombre").value;
+        var datosenviar= {
+            "nombre": nombre
+        }
+        if(nombre==""){
+            alerta();
+            document.getElementById("nombre").focus();
+            
+        }
+        
+        if (nombre!="" ) {
+                    /*console.log(nombre +" "+ descripcion+" "+ tiempo +" "+ usuario);*/
+                    document.getElementById("nombre").value="";
+
+                    fetch("https://paginas-web-cr.com/ApiPHP/apis/InsertarGrupo.php",
+                    {
+                    method:'POST',
+                     body: JSON.stringify(datosenviar)
+                    }
+                    )
+                   //url de peticion  de datos
+                   .then(respuesta => respuesta.json())//recibe los datos en formato json
+                   .then((datosrespuesta) =>{
+                     confirmacion(nombre);
+                     console.log('Datos',datosrespuesta)//muesta el resultado de la petición
+                   })
+       
+                   .catch(console.log)//muestra       
+          }
+       });
+
+       function confirmacion(nombre){
+                    parrafo.innerHTML = "Se ha registrado correctamente el  grupo de " + nombre;
+                     modal2.show();           
+        }
+        function alerta(){
+                     modal3.show();
+        } 
+
+  </script>
+</body>
+
+</html>
