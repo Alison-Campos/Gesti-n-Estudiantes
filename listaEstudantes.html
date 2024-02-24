@@ -212,7 +212,7 @@
 
     function cargarDatos(){
 
-        fetch("https://paginas-web-cr.com/ApiPHP/apis/ListaEstudiantes.php")//la url de peticion 
+        fetch("https://paginas-web-cr.com/Api/apis/ListaEstudiantes.php")//la url de peticion 
         .then(respuesta => respuesta.json())//recibe los datos en json
         .then((datosrespuesta) => {
             settable(datosrespuesta.data)
@@ -308,7 +308,7 @@
             usuario:usuario
         }
         console.log(datosenviar);
-         fetch("https://paginas-web-cr.com/ApiPHP/apis/ActualizarEstudiantes.php",
+         fetch("https://paginas-web-cr.com/Api/apis/ActualizarEstudiantes.php",
           {
              method:"POST",
             body:JSON.stringify(datosenviar)
@@ -335,7 +335,7 @@
       var datosenviar = {
             id:id
         }
-   fetch("https://paginas-web-cr.com/ApiPHP/apis/BorrarEstudiantes.php",
+   fetch("https://paginas-web-cr.com/Api/apis/BorrarEstudiantes.php",
         {
             method:"POST",
             body:JSON.stringify(datosenviar)
